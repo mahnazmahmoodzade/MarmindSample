@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "MarmindSample.Web": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SkipNSwag": "True"
+      },
+      "applicationUrl": "http://localhost:5000"
+    }
+  }
+}

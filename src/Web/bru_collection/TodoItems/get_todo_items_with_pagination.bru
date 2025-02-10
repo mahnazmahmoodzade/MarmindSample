@@ -1,0 +1,36 @@
+meta {
+  name: get_todo_items_with_pagination
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/todo-items?ListId=1&PageNumber=1&PageSize=5
+  body: none
+  auth: none
+}
+
+params:query {
+  ListId: 1
+  PageNumber: 1
+  PageSize: 5
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: 200
+  res.headers["content-type"]: contains application/json
+  res.body.pageNumber: isNumber
+  res.body.totalCount: isNumber
+  res.body.totalPages: isNumber
+  res.body.hasNextPage: isBoolean
+  res.body.hasPreviousPage: isBoolean
+  res.body.items: isArray
+  res.body.items[0].id: isNumber
+  res.body.items[0].listId: eq 1
+  res.body.items[0].title: isString
+  res.body.items[0].done: isBoolean
+}

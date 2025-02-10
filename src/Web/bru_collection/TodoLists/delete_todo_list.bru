@@ -1,0 +1,19 @@
+meta {
+  name: delete_todo_list
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/api/todo-lists/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 2
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}

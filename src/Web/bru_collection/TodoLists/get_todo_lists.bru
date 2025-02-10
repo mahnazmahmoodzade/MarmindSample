@@ -1,0 +1,15 @@
+meta {
+  name: get_todo_lists
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/todo-lists
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}

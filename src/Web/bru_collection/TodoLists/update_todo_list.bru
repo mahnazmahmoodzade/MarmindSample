@@ -1,0 +1,26 @@
+meta {
+  name: update_todo_list
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/api/todo-lists/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "id": "1",
+    "title": "Todo List 2"
+  }
+}

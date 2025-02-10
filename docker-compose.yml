@@ -1,0 +1,48 @@
+services:
+
+  backend:
+    image: ${DOCKER_REGISTRY-}web
+    build:
+      context: .
+      dockerfile: src/Web/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    networks:
+      - app_network
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_ENVIRONMENT=Development
+      - SkipNSwag=true
+      - ConnectionStrings__MarmindSample=Host=database;Port=5432;Database=MarmindSampleDb;Username=postgres;Password=postgres
+ 
+
+  database:
+    image: postgres:latest
+    container_name: marmind-sample-db
+    environment:
+      - POSTGRES_DB=MarmindSampleDb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+
+  seq:
+    image: datalust/seq:latest
+    container_name: seq
+    ports:
+      - "5341:5341"
+      - "81:80"
+    networks:
+      - app_network
+    environment:
+      - ACCEPT_EULA=Y
+
+networks:
+  app_network:
+    driver: bridge
+

@@ -1,0 +1,24 @@
+meta {
+  name: delete_todo_item_when_id_is_not_exist
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/api/todo-items/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 100
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+assert {
+  res.status: eq 404
+  res.body.detail: isNotEmpty
+}

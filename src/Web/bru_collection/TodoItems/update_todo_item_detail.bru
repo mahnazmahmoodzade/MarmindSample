@@ -1,0 +1,33 @@
+meta {
+  name: update_todo_item_detail
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/todo-items/update-detail/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "id": 1,
+    "listId": 1,
+    "priority": 1,
+    "note": "Turn off the lights"
+  }
+}
+
+assert {
+  res.status: eq 204
+  res.body: isEmpty
+}

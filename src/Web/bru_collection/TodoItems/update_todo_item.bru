@@ -1,0 +1,32 @@
+meta {
+  name: update_todo_item
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/api/todo-items/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "id": 1,
+    "title": "Clean the room",
+    "done": true
+  }
+}
+
+assert {
+  res.status: 204
+  res.body: isEmpty
+}

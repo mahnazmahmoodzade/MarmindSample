@@ -1,0 +1,25 @@
+meta {
+  name: get_todo_items_when_user_is_not_authorized
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/todo-items?ListId=1&PageNumber=1&PageSize=5
+  body: none
+  auth: none
+}
+
+params:query {
+  ListId: 1
+  PageNumber: 1
+  PageSize: 5
+}
+
+headers {
+  Authorization: 
+}
+
+assert {
+  res.status: eq 401
+}
