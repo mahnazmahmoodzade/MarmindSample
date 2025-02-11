@@ -1,24 +1,5 @@
 services:
-
-  backend:
-    image: ${DOCKER_REGISTRY-}web
-    build:
-      context: .
-      dockerfile: src/Web/Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - database
-    networks:
-      - app_network
-    environment:
-      - DOTNET_RUNNING_IN_CONTAINER=true
-      - ASPNETCORE_URLS=http://+:8080
-      - ASPNETCORE_ENVIRONMENT=Development
-      - SkipNSwag=true
-      - ConnectionStrings__MarmindSample=Host=database;Port=5432;Database=MarmindSampleDb;Username=postgres;Password=postgres
  
-
   database:
     image: postgres:latest
     container_name: marmind-sample-db
@@ -30,6 +11,30 @@ services:
       - "5432:5432"
     networks:
       - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: ${DOCKER_REGISTRY-}web
+    build:
+      context: .
+      dockerfile: src/Web/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - app_network
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_ENVIRONMENT=Development
+      - SkipNSwag=true
+      - ConnectionStrings__MarmindSampleDb=Host=database;Port=5432;Database=MarmindSampleDb;Username=postgres;Password=postgres
 
   seq:
     image: datalust/seq:latest
@@ -45,4 +50,3 @@ services:
 networks:
   app_network:
     driver: bridge
-
