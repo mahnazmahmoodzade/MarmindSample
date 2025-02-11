@@ -34,11 +34,12 @@ To test API the endpoints, follow these steps:
 1. Download and install Bruno from <https://www.usebruno.com/downloads>
 2. Open Bruno and select "Open Collection"
 3. Navigate to and select this folder: `src\Web\bru_collection`
-4. Run the "login" request first - it's preconfigured with credentials:
+4. Select the "test" environment from the environment dropdown in the top right corner
+5. Run the "login" request first - it's preconfigured with credentials:
    - Email: administrator@localhost
    - Password: Administrator1!
    - The access token will be automatically stored for subsequent requests
-5. After login, you can run any other API request in the collection
+6. After login, you can run any other API request in the collection
 
 The collection includes TodoItem endpoints with built-in assertions that verify:
 - Response status codes
